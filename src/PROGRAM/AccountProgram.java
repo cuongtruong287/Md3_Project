@@ -27,7 +27,7 @@ public class AccountProgram {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice){
                 case 1:
-                    List<Account> accounts = accountDAO.geeAllAccount();
+                    List<Account> accounts = accountDAO.getAllAccount();
                     for (Account account: accounts){
                         System.out.println(account.toString());
                     }

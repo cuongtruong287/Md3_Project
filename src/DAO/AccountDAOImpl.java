@@ -38,7 +38,7 @@ public class AccountDAOImpl implements AccountDAO{
     }
 
     @Override
-    public List<Account> geeAllAccount() {
+    public List<Account> getAllAccount() {
         Connection connection = ConnectionDB.openConnection();
         List<Account> accounts = new ArrayList<>();
         String slqSelectAllAccount = "select * from ACCOUNT";

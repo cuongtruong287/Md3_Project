@@ -28,7 +28,7 @@ public class ProductDAOImpl implements ProductDAO {
                 product.setProduct_Name(resultSet.getString("product_Name"));
                 product.setManufacturer(resultSet.getString("manufacturer"));
                 product.setCreated(resultSet.getDate("product_Created"));
-                product.setBatch(resultSet.getInt("batch"));
+                product.setBatch(resultSet.getInt("product_Batch"));
                 product.setProduct_Quantity(resultSet.getInt("product_Quantity"));
                 product.setProduct_Status(resultSet.getBoolean("product_Status"));
                 products.add(product);
@@ -45,7 +45,7 @@ public class ProductDAOImpl implements ProductDAO {
     public boolean addProduct(Product product) {
         Connection connection = ConnectionDB.openConnection();
         try {
-            String sqlAddProduct = "insert into PRODUCT(product_Id, product_Name, manufacturer, batch, product_Quantity) values (?, ?, ?, ?, ? )";
+            String sqlAddProduct = "insert into PRODUCT(product_Id, product_Name, manufacturer, product_Batch, product_Quantity) values (?, ?, ?, ?, ? )";
             PreparedStatement statement = connection.prepareStatement(sqlAddProduct);
             statement.setString(1, product.getProduct_Id());
             statement.setString(2, product.getProduct_Name());
@@ -81,7 +81,7 @@ public class ProductDAOImpl implements ProductDAO {
                 product.setProduct_Name(resultSet.getString("product_Name"));
                 product.setManufacturer(resultSet.getString("manufacturer"));
                 product.setCreated(resultSet.getDate("product_Created"));
-                product.setBatch(resultSet.getInt("batch"));
+                product.setBatch(resultSet.getInt("product_Batch"));
                 product.setProduct_Quantity(resultSet.getInt("product_Quantity"));
                 product.setProduct_Status(resultSet.getBoolean("product_Status"));
             }
@@ -96,7 +96,7 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public boolean updateProduct(Product product) {
         Connection connection = ConnectionDB.openConnection();
-        String slqUpdateProduct = "update PRODUCT set product_Name = ?, manufacturer = ?, batch = ?, product_Quantity = ?, product_Status = ? where product_Id = ?";
+        String slqUpdateProduct = "update PRODUCT set product_Name = ?, manufacturer = ?, product_Batch = ?, product_Quantity = ?, product_Status = ? where product_Id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(slqUpdateProduct);
             statement.setString(1, product.getProduct_Name());
@@ -132,7 +132,7 @@ public class ProductDAOImpl implements ProductDAO {
                 product.setProduct_Name(resultSet.getString("product_Name"));
                 product.setManufacturer(resultSet.getString("manufacturer"));
                 product.setCreated(resultSet.getDate("product_Created"));
-                product.setBatch(resultSet.getInt("batch"));
+                product.setBatch(resultSet.getInt("product_batch"));
                 product.setProduct_Quantity(resultSet.getInt("product_Quantity"));
                 product.setProduct_Status(resultSet.getBoolean("product_Status"));
                 products.add(product);
