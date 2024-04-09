@@ -1,5 +1,7 @@
 package ENTITY;
 
+import java.util.Scanner;
+
 public class Account {
     private int acc_Id;
     private String userName;
@@ -47,6 +49,26 @@ public class Account {
 
     public void setAccount_Status(Boolean account_Status) {
         this.account_Status = account_Status;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "acc_Id=" + acc_Id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", permission=" + permission +
+                ", account_Status=" + account_Status +
+                '}';
+    }
+
+    public void accountInputData(Scanner scanner) {
+        System.out.println("Nhap vao username:");
+        userName = scanner.nextLine();
+        System.out.println("Nhap vao password:");
+        password = scanner.nextLine();
+        System.out.println("Cai dat quyen quan tri: admin = false/ user = true");
+        permission = Boolean.parseBoolean(scanner.nextLine());
     }
 
 }

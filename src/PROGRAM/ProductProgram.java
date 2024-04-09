@@ -104,15 +104,15 @@ public class ProductProgram {
                                 case 5:
                                     System.out.println("Moi ban nhap vao id can sua trang thai");
                                     String product_Id2 = scanner.nextLine();
-                                    Product productStatusUpdate = productDAO.findById(product_Id2);
-                                    if (productStatusUpdate == null){
+                                    Product updateProductStatus = productDAO.findById(product_Id2);
+                                    if (updateProductStatus == null){
                                         System.err.println("Rat tiec khong tim thay ma san pham can sua!");
                                     } else {
                                         System.out.println("Moi ban nhap trang thai san pham:");
-                                        productStatusUpdate.setProduct_Status(Boolean.parseBoolean(scanner.nextLine()));
-                                        if (productDAO.updateProduct(productStatusUpdate)){
+                                        updateProductStatus.setProduct_Status(Boolean.parseBoolean(scanner.nextLine()));
+                                        if (productDAO.updateProductStatus(updateProductStatus)){
                                             System.out.println("Cap nhat san pham thanh cong!!!");
-                                            System.out.println(productStatusUpdate.toString());
+                                            System.out.println(updateProductStatus.toString());
                                         }
                                     }
                                     break;
