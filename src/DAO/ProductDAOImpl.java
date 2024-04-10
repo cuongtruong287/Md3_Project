@@ -69,7 +69,7 @@ public class ProductDAOImpl implements ProductDAO {
         Connection connection = ConnectionDB.openConnection();
         Product product = new Product();
         try {
-            String sqlFindProductById = "select * from PRODUCT where product_Id = ?";
+            String sqlFindProductById = "select * from PRODUCT where product_Id = ? limit 10";
             PreparedStatement statement = connection.prepareStatement(sqlFindProductById);
             statement.setString(1,product_Id);
             ResultSet resultSet = statement.executeQuery();

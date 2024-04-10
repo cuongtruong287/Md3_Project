@@ -1,5 +1,6 @@
 package ENTITY;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -97,5 +98,19 @@ public class Product {
         batch = Integer.parseInt(scanner.nextLine());
         System.out.println("Moi ban nhap so luong hang:");
         product_Quantity = Integer.parseInt(scanner.nextLine());
+    }
+
+    public void inputCreated(Scanner scanner) {
+        System.out.println("Mời bạn nhập vào ngày tạo");
+        while (true) {
+            String inputCreated = scanner.nextLine();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                this.created = format.parse(inputCreated);
+                break;
+            } catch (Exception e) {
+                System.err.println("Sai định dạng");;
+            }
+        }
     }
 }

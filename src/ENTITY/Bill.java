@@ -10,12 +10,12 @@ public class Bill {
     private int account_Id_Created;
     private Date bill_Created;
     private Date bill_Auth_Date;
-    private Boolean bill_Status;
+    private int bill_Status;
 
     public Bill() {
     }
 
-    public Bill(int bill_Id, String bill_Code, Boolean bill_Type, int account_Id_Created, Date bill_Created, Date bill_Auth_Date, Boolean bill_Status) {
+    public Bill(int bill_Id, String bill_Code, Boolean bill_Type, int account_Id_Created, Date bill_Created, Date bill_Auth_Date, int bill_Status) {
         this.bill_Id = bill_Id;
         this.bill_Code = bill_Code;
         this.bill_Type = bill_Type;
@@ -73,11 +73,11 @@ public class Bill {
         this.bill_Auth_Date = bill_Auth_Date;
     }
 
-    public Boolean getBill_Status() {
+    public int getBill_Status() {
         return bill_Status;
     }
 
-    public void setBill_Status(Boolean bill_Status) {
+    public void setBill_Status(int bill_Status) {
         this.bill_Status = bill_Status;
     }
 
@@ -94,11 +94,9 @@ public class Bill {
                 '}';
     }
 
-    public void billInputData(Scanner scanner){
+    public void InputData(Scanner scanner){
         System.out.println("Nhap vao ma bill");
         bill_Code = scanner.nextLine();
-        System.out.println("Nhap vao loai phieu: Nhap = 1 / Xuat = 0");
-        bill_Type = Boolean.parseBoolean(scanner.nextLine());
         System.out.println("Nhap ma tai khoan nguoi thao tac");
         account_Id_Created = Integer.parseInt(scanner.nextLine());
     }

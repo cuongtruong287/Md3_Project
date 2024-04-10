@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AccountProgram {
-    public static void main(String[] args) {
+    public void runAccount() {
         Scanner scanner = new Scanner(System.in);
         AccountDAO accountDAO = new AccountDAOImpl();
         ProductDAO productDAO = new ProductDAOImpl();
