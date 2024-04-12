@@ -12,6 +12,7 @@ public interface BillDAO {
     Bill findBillById(int bill_id);
     boolean updateBill(Bill bill);
     boolean updateBillStatus(Bill bill);
+    List<Bill> searchBillByCode(String keyword);
 
 
 }

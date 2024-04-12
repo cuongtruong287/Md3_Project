@@ -111,7 +111,7 @@ public class BillDAOImpl implements BillDAO{
         Connection connection = ConnectionDB.openConnection();
         Bill bill = new Bill();
         try {
-            String sqlFindBillById = "select * from BILL where bill_id = ?";
+            String sqlFindBillById = "select * from BILL where bill_id = ? limit 10";
             PreparedStatement statement = connection.prepareStatement(sqlFindBillById);
             statement.setInt(1,bill_id);
             ResultSet resultSet = statement.executeQuery();
@@ -175,5 +175,33 @@ public class BillDAOImpl implements BillDAO{
             ConnectionDB.closeConnection(connection);
         }
         return false;
+    }
+
+    @Override
+    public List<Bill> searchBillByCode(String keyword) {
+        Connection connection = ConnectionDB.openConnection();
+        List<Bill> bills = new ArrayList<>();
+        try {
+            String sqlProductSearchByName = "select * from BILL where bill_Code like ? limit 10";
+            PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
+            statement.setString(1,"%" + keyword + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                bill.setBill_Id(resultSet.getInt("bill_id"));
+                bill.setBill_Code(resultSet.getString("bill_Code"));
+                bill.setBill_Type(resultSet.getBoolean("bill_Type"));
+                bill.setAccount_Id_Created(resultSet.getInt("account_Id_Created"));
+                bill.setBill_Created(resultSet.getDate("bill_Created"));
+                bill.setBill_Auth_Date(resultSet.getDate("bill_Auth_Date"));
+                bill.setBill_Status(resultSet.getInt("bill_Status"));
+                bills.add(bill);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return bills;
     }
 }
