@@ -3,7 +3,9 @@ package PROGRAM;
 import DAO.BillDAO;
 import DAO.BillDAOImpl;
 import ENTITY.Bill;
-
+import ENTITY.Bill_Detail;
+import DAO.Bill_DetailDAO;
+import DAO.Bill_DetailDAOImpl;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +13,7 @@ public class BillProgram {
     public void runBill() {
         Scanner scanner = new Scanner(System.in);
         BillDAO billDAO = new BillDAOImpl();
+        Bill_DetailDAO bill_detailDAO = new Bill_DetailDAOImpl();
         do {
             System.out.println("===QUAN LY PHIEU XUAT===");
             System.out.println("""
@@ -69,6 +72,10 @@ public class BillProgram {
                     }
                     break;
                 case 4:
+                    List<Bill_Detail> bill_details = bill_detailDAO.getAllBillDetail();
+                    for (Bill_Detail bill_detail: bill_details){
+                        System.out.println(bill_detail.toString());
+                    }
                     break;
                 case 5:
                     break;

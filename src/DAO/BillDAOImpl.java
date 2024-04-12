@@ -63,7 +63,7 @@ public class BillDAOImpl implements BillDAO{
         } finally {
             ConnectionDB.closeConnection(connection);
         }
-        return null;
+        return bills;
     }
 
     @Override
