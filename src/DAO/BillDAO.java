@@ -11,6 +11,7 @@ public interface BillDAO {
     boolean addBill(Bill bill);
     Bill findBillById(int bill_id);
     boolean updateBill(Bill bill);
+    boolean updateBillStatus(Bill bill);
 
 
 }

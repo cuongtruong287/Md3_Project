@@ -156,4 +156,24 @@ public class BillDAOImpl implements BillDAO{
         }
         return false;
     }
+
+    @Override
+    public boolean updateBillStatus(Bill bill) {
+        Connection connection = ConnectionDB.openConnection();
+        String slqUpdateBill = "update Bill set bill_Status = ? where bill_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(slqUpdateBill);
+            statement.setInt(1, bill.getBill_Status());
+            statement.setInt(2, bill.getBill_Id());
+            int check = statement.executeUpdate();
+            if (check > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return false;
+    }
 }

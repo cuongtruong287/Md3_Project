@@ -78,6 +78,37 @@ public class BillProgram {
                     }
                     break;
                 case 5:
+                    System.out.println("Moi ban nhap vao id phieu xuat can duyet");
+                    int bill_Id_Type_Update = Integer.parseInt(scanner.nextLine());
+                    Bill billTypeUpdate = billDAO.findBillById(bill_Id_Type_Update);
+                    if (billTypeUpdate == null) {
+                        System.err.println("Rat tiec, khong tim thay ID phieu xuat can duyet!");
+                    } else {
+                        if (billTypeUpdate.getBill_Type()) {
+                            System.err.println("Rat tiec, ma ID ban vua nhap la phieu nhap");
+                        } else {
+                            if (billTypeUpdate.getBill_Status() == 2) {
+                                System.out.println("Phieu xuat dang o trang thai duyet, khong can thao tac");
+                                System.out.println(billTypeUpdate.toString());
+                            } else if (billTypeUpdate.getBill_Status() == 0) {
+                                System.out.println("Co phai ban muon duyet phieu xuat nay?");
+                                System.out.println(billTypeUpdate.toString());
+                                System.out.println("Moi ban nhap 2 neu muon duyet, hoac phim bat ky neu muon huy thao tac");
+                                if (Integer.parseInt(scanner.nextLine()) == 2) {
+                                    billTypeUpdate.setBill_Status(2);
+                                    if (billDAO.updateBillStatus(billTypeUpdate)) {
+                                        System.out.println("Duyet thanh cong!!!");
+                                        System.out.println(billTypeUpdate.toString());
+                                    }
+                                } else {
+                                    System.exit(0);
+
+                                }
+                            } else {
+                                System.err.println("Loi! Phieu xuat nay dang o trang thai huy, khong thac tac duoc!");
+                            }
+                        }
+                    }
                     break;
                 case 6:
                     break;

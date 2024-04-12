@@ -80,26 +80,30 @@ public class ReceiptProgram {
                     Bill billTypeUpdate = billDAO.findBillById(bill_Id_Type_Update);
                     if (billTypeUpdate == null) {
                         System.err.println("Rat tiec, khong tim thay ID phieu nhap can duyet!");
-                    } else if (!billTypeUpdate.getBill_Type()) {
-                        System.err.println("Rat tiec, ma ID ban vua nhap la phieu xuat");
                     } else {
-                        if (billTypeUpdate.getBill_Status() == 2) {
-                            System.out.println("Rat tiec, phieu nhap dang o trang thai duyet, khong can thao tac");
-                            System.out.println(billTypeUpdate.toString());
-                        } else if (billTypeUpdate.getBill_Status() == 0) {
+                        if (!billTypeUpdate.getBill_Type()) {
+                            System.err.println("Rat tiec, ma ID ban vua nhap la phieu xuat");
+                        } else {
+                            if (billTypeUpdate.getBill_Status() == 2) {
+                                System.out.println("Phieu nhap dang o trang thai duyet, khong can thao tac");
+                                System.out.println(billTypeUpdate.toString());
+                            } else if (billTypeUpdate.getBill_Status() == 0) {
                                 System.out.println("Co phai ban muon duyet phieu nhap nay?");
                                 System.out.println(billTypeUpdate.toString());
                                 System.out.println("Moi ban nhap 2 neu muon duyet, hoac phim bat ky neu muon huy thao tac");
-                                if (Integer.parseInt(scanner.nextLine())== 2) {
+                                if (Integer.parseInt(scanner.nextLine()) == 2) {
                                     billTypeUpdate.setBill_Status(2);
-                                    if (billDAO.updateBill(billTypeUpdate)){
+                                    if (billDAO.updateBillStatus(billTypeUpdate)) {
                                         System.out.println("Duyet thanh cong!!!");
                                         System.out.println(billTypeUpdate.toString());
                                     }
-                                } System.exit(0);
+                                } else {
+                                    System.exit(0);
 
-                        } else {
-                            System.err.println("Loi! Phieu nhap nay dang o trang thai huy, khong thac tac duoc!");
+                                }
+                            } else {
+                                System.err.println("Loi! Phieu nhap nay dang o trang thai huy, khong thac tac duoc!");
+                            }
                         }
                     }
                     break;
