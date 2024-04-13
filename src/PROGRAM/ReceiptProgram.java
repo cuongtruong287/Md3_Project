@@ -110,7 +110,7 @@ public class ReceiptProgram {
                 case 6:
                     System.out.println("Moi ban nhap vao tu khoa muon tim kiem");
                     String keyWord = scanner.nextLine();
-                    List<Bill> billListSearchByName = billDAO.searchBillByCode(keyWord);
+                    List<Bill> billListSearchByName = billDAO.searchReceiptByCode(keyWord);
                     int countSearch = 0;
                     for (Bill bill1 : billListSearchByName) {
                         System.out.println(bill1.toString());

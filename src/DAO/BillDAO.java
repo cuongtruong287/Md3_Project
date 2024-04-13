@@ -13,6 +13,7 @@ public interface BillDAO {
     boolean updateBill(Bill bill);
     boolean updateBillStatus(Bill bill);
     List<Bill> searchBillByCode(String keyword);
+    List<Bill> searchReceiptByCode(String keyword);
 
 
 }

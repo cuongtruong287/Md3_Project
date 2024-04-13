@@ -111,6 +111,17 @@ public class BillProgram {
                     }
                     break;
                 case 6:
+                    System.out.println("Moi ban nhap vao tu khoa muon tim kiem");
+                    String keyWord = scanner.nextLine();
+                    List<Bill> billListSearchByName = billDAO.searchBillByCode(keyWord);
+                    int countSearch = 0;
+                    for (Bill bill1 : billListSearchByName) {
+                        System.out.println(bill1.toString());
+                        countSearch++;
+                    }
+                    if (countSearch == 0) {
+                        System.err.println("Khong tim thay ket qua nao voi tu khoa: " + keyWord);
+                    }
                     break;
                 case 7:
                     System.exit(0);
