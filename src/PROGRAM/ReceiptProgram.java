@@ -36,7 +36,7 @@ public class ReceiptProgram {
                     Bill bill = new Bill();
                     System.out.println("Moi ban nhap thong tin phieu nhap");
                     bill.InputData(scanner);
-                    if (billDAO.addReceiptBill(bill)) {
+                    if (billDAO.addReceipt(bill)) {
                         System.out.println("Them phieu nhap thanh cong!");
                     } else {
                         System.err.println("Loi! Vui long nhap lai!!!");

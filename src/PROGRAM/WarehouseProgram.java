@@ -33,12 +33,13 @@ public class WarehouseProgram {
                             do {
                                 System.out.println("===QUAN LY KHO HANG ===");
                                 System.out.println("""
-                                    1. Quản lý sản phẩm
-                                    2. Quản lý tài khoản
-                                    3. Quản lý phiếu nhập
-                                    4. Quản lý phiếu xuất
-                                    5. Thoát
-                                    """);
+                                        1. Quản lý sản phẩm
+                                        2. Quản lý tài khoản
+                                        3. Quản lý phiếu nhập
+                                        4. Quản lý phiếu xuất
+                                        5. Trở lại
+                                        6. Thoát
+                                        """);
                                 int choice = Integer.parseInt(scanner.nextLine());
                                 switch (choice) {
                                     case 1:
@@ -62,6 +63,9 @@ public class WarehouseProgram {
                                         billProgram.runBill();
                                         break;
                                     case 5:
+                                        main(new String[]{});
+                                        break;
+                                    case 6:
                                         System.exit(0);
                                     default:
                                         System.out.println("Loi!!! Vui long nhap lai!!!");

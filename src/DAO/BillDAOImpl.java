@@ -67,7 +67,7 @@ public class BillDAOImpl implements BillDAO{
     }
 
     @Override
-    public boolean addReceiptBill(Bill bill) {
+    public boolean addReceipt(Bill bill) {
         Connection connection = ConnectionDB.openConnection();
         try {
             String sqlAddReceipt = "insert into BILL(bill_Code, bill_Type, account_Id_Created) value (?, 1, ?)";
@@ -111,7 +111,7 @@ public class BillDAOImpl implements BillDAO{
         Connection connection = ConnectionDB.openConnection();
         Bill bill = new Bill();
         try {
-            String sqlFindBillById = "select * from BILL where bill_id = ? limit 10";
+            String sqlFindBillById = "select * from BILL where bill_id = ?";
             PreparedStatement statement = connection.prepareStatement(sqlFindBillById);
             statement.setInt(1,bill_id);
             ResultSet resultSet = statement.executeQuery();
@@ -182,7 +182,7 @@ public class BillDAOImpl implements BillDAO{
         Connection connection = ConnectionDB.openConnection();
         List<Bill> bills = new ArrayList<>();
         try {
-            String sqlProductSearchByName = "select * from BILL where bill_Type = 0 and bill_Code like ? limit 10";
+            String sqlProductSearchByName = "select * from BILL where bill_Type = 0 and bill_Code like ?";
             PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
             statement.setString(1,"%" + keyword + "%");
             ResultSet resultSet = statement.executeQuery();
@@ -210,7 +210,7 @@ public class BillDAOImpl implements BillDAO{
         Connection connection = ConnectionDB.openConnection();
         List<Bill> bills = new ArrayList<>();
         try {
-            String sqlProductSearchByName = "select * from BILL where bill_Type = 1 and bill_Code like ? limit 10";
+            String sqlProductSearchByName = "select * from BILL where bill_Type = 1 and bill_Code like ?";
             PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
             statement.setString(1,"%" + keyword + "%");
             ResultSet resultSet = statement.executeQuery();
