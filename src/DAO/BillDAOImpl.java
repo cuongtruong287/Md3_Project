@@ -1,5 +1,6 @@
 package DAO;
 
+import ENTITY.Account;
 import ENTITY.Bill;
 import UTIL.ConnectionDB;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillDAOImpl implements BillDAO{
+public class BillDAOImpl implements BillDAO {
 
     @Override
     public List<Bill> getReceiptList() {
@@ -20,7 +21,7 @@ public class BillDAOImpl implements BillDAO{
         try {
             PreparedStatement statement = connection.prepareStatement(sqlSelectReceipt);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Bill bill = new Bill();
                 bill.setBill_Id(resultSet.getInt("bill_id"));
                 bill.setBill_Code(resultSet.getString("bill_Code"));
@@ -47,7 +48,7 @@ public class BillDAOImpl implements BillDAO{
         try {
             PreparedStatement statement = connection.prepareStatement(sqlSelectAllBill);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Bill bill = new Bill();
                 bill.setBill_Id(resultSet.getInt("bill_id"));
                 bill.setBill_Code(resultSet.getString("bill_Code"));
@@ -113,7 +114,7 @@ public class BillDAOImpl implements BillDAO{
         try {
             String sqlFindBillById = "select * from BILL where bill_id = ?";
             PreparedStatement statement = connection.prepareStatement(sqlFindBillById);
-            statement.setInt(1,bill_id);
+            statement.setInt(1, bill_id);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
@@ -184,7 +185,7 @@ public class BillDAOImpl implements BillDAO{
         try {
             String sqlProductSearchByName = "select * from BILL where bill_Type = 0 and bill_Code like ?";
             PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
-            statement.setString(1,"%" + keyword + "%");
+            statement.setString(1, "%" + keyword + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Bill bill = new Bill();
@@ -212,7 +213,7 @@ public class BillDAOImpl implements BillDAO{
         try {
             String sqlProductSearchByName = "select * from BILL where bill_Type = 1 and bill_Code like ?";
             PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
-            statement.setString(1,"%" + keyword + "%");
+            statement.setString(1, "%" + keyword + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Bill bill = new Bill();
@@ -232,4 +233,160 @@ public class BillDAOImpl implements BillDAO{
         }
         return bills;
     }
+
+    @Override
+    public List<Bill> getReceiptListForUser(int acc_Id) {
+        Connection connection = ConnectionDB.openConnection();
+        List<Bill> bills = new ArrayList<>();
+        String sqlSelectReceipt = "select * from BILL where bill_Type = 1 and account_Id_Created = ? order by bill_Status";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sqlSelectReceipt);
+            statement.setInt(1, acc_Id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                bill.setBill_Id(resultSet.getInt("bill_id"));
+                bill.setBill_Code(resultSet.getString("bill_Code"));
+                bill.setBill_Type(resultSet.getBoolean("bill_Type"));
+                bill.setAccount_Id_Created(resultSet.getInt("account_Id_Created"));
+                bill.setBill_Created(resultSet.getDate("bill_Created"));
+                bill.setBill_Auth_Date(resultSet.getDate("bill_Auth_Date"));
+                bill.setBill_Status(resultSet.getInt("bill_Status"));
+                bills.add(bill);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return bills;
+    }
+
+    @Override
+    public List<Bill> getBillListForUser(int acc_Id) {
+        Connection connection = ConnectionDB.openConnection();
+        List<Bill> bills = new ArrayList<>();
+        String sqlSelectReceipt = "select * from BILL where bill_Type = 0 and account_Id_Created = ? order by bill_Status";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sqlSelectReceipt);
+            statement.setInt(1, acc_Id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                bill.setBill_Id(resultSet.getInt("bill_id"));
+                bill.setBill_Code(resultSet.getString("bill_Code"));
+                bill.setBill_Type(resultSet.getBoolean("bill_Type"));
+                bill.setAccount_Id_Created(resultSet.getInt("account_Id_Created"));
+                bill.setBill_Created(resultSet.getDate("bill_Created"));
+                bill.setBill_Auth_Date(resultSet.getDate("bill_Auth_Date"));
+                bill.setBill_Status(resultSet.getInt("bill_Status"));
+                bills.add(bill);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return bills;
+    }
+
+    @Override
+    public boolean updateBillForUser(Bill bill) {
+        Connection connection = ConnectionDB.openConnection();
+        String slqUpdateBill = "update Bill set bill_Code = ?, bill_Type = 0, bill_Status = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(slqUpdateBill);
+            statement.setString(1, bill.getBill_Code());
+            statement.setInt(2, bill.getBill_Status());
+            int check = statement.executeUpdate();
+            if (check > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateReceiptForUser(Bill bill) {
+        Connection connection = ConnectionDB.openConnection();
+        String slqUpdateBill = "update Bill set bill_Code = ?, bill_Type = 1, bill_Status = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(slqUpdateBill);
+            statement.setString(1, bill.getBill_Code());
+            statement.setInt(2, bill.getBill_Status());
+            int check = statement.executeUpdate();
+            if (check > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Bill> searchBillByCodeForUser(int acc_Id, String keyword) {
+        Connection connection = ConnectionDB.openConnection();
+        List<Bill> bills = new ArrayList<>();
+        try {
+            String sqlProductSearchByName = "select * from BILL where bill_Type = 0 and account_Id_Created = ? and bill_Code like ?";
+            PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
+            statement.setInt(1,acc_Id);
+            statement.setString(2,"%" + keyword + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                bill.setBill_Id(resultSet.getInt("bill_id"));
+                bill.setBill_Code(resultSet.getString("bill_Code"));
+                bill.setBill_Type(resultSet.getBoolean("bill_Type"));
+                bill.setAccount_Id_Created(resultSet.getInt("account_Id_Created"));
+                bill.setBill_Created(resultSet.getDate("bill_Created"));
+                bill.setBill_Auth_Date(resultSet.getDate("bill_Auth_Date"));
+                bill.setBill_Status(resultSet.getInt("bill_Status"));
+                bills.add(bill);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return bills;
+    }
+
+    @Override
+    public List<Bill> searchReceiptByCodeForUser(int acc_Id, String keyword) {
+        Connection connection = ConnectionDB.openConnection();
+        List<Bill> bills = new ArrayList<>();
+        try {
+            String sqlProductSearchByName = "select * from BILL where bill_Type = 1 and account_Id_Created = ? and bill_Code like ? ";
+            PreparedStatement statement = connection.prepareStatement(sqlProductSearchByName);
+            statement.setInt(1,acc_Id);
+            statement.setString(2,"%" + keyword + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bill bill = new Bill();
+                bill.setBill_Id(resultSet.getInt("bill_id"));
+                bill.setBill_Code(resultSet.getString("bill_Code"));
+                bill.setBill_Type(resultSet.getBoolean("bill_Type"));
+                bill.setAccount_Id_Created(resultSet.getInt("account_Id_Created"));
+                bill.setBill_Created(resultSet.getDate("bill_Created"));
+                bill.setBill_Auth_Date(resultSet.getDate("bill_Auth_Date"));
+                bill.setBill_Status(resultSet.getInt("bill_Status"));
+                bills.add(bill);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return bills;
+    }
+
+
 }
